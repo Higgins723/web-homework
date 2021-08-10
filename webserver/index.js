@@ -8,6 +8,8 @@ const httpErrors = require('http-errors')
 const path = require('path')
 const pino = require('pino')
 const pinoHttp = require('pino-http')
+const { TransactionModel } = require('./data-models/Transaction')
+const { UserModel } = require('./data-models/User')
 
 module.exports = function main (options, cb) {
   // Set default options
@@ -28,6 +30,13 @@ module.exports = function main (options, cb) {
   let serverClosing = false
 
   const MONGO_URI = 'mongodb://localhost:27017/graphql'
+
+  // seed the database
+  const seed = async () => {
+    const { users, transactions } = await require('./helpers/loadData');
+    console.log(users, transactions);
+  }
+  seed();
 
   mongoose.Promise = global.Promise
   mongoose.connect(MONGO_URI, {

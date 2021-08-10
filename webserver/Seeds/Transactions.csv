@@ -1,0 +1,13 @@
+user_id,description,merchant_id,debit,credit,amount
+100,Travel,Uber,FALSE,TRUE,35.23
+100,Travel,Jet Blue,FALSE,TRUE,199.99
+100,Dining,Krispy Kreme,TRUE,FALSE,10.34
+100,Lodging,Hilton,FALSE,TRUE,789.23
+100,Dining,McDonalds,TRUE,FALSE,15.49
+100,Miscellaneous,Walmart,TRUE,FALSE,21.14
+100,Miscellaneous,Best Buy,FALSE,TRUE,119.15
+100,Travel,Lyft,TRUE,FALSE,54.67
+200,Travel,Sinclair,FALSE,TRUE,43.18
+200,Dining,Popeyes,TRUE,FALSE,22.96
+200,Lodging,Holiday Inn,FALSE,TRUE,438.52
+200,Miscellaneous,Walgreens,TRUE,FALSE,14.93
