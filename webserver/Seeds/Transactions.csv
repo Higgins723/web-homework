@@ -1,13 +1,17 @@
 user_id,description,merchant_id,debit,credit,amount
-100,Travel,Uber,FALSE,TRUE,35.23
-100,Travel,Jet Blue,FALSE,TRUE,199.99
-100,Dining,Krispy Kreme,TRUE,FALSE,10.34
-100,Lodging,Hilton,FALSE,TRUE,789.23
-100,Dining,McDonalds,TRUE,FALSE,15.49
-100,Miscellaneous,Walmart,TRUE,FALSE,21.14
-100,Miscellaneous,Best Buy,FALSE,TRUE,119.15
-100,Travel,Lyft,TRUE,FALSE,54.67
-200,Travel,Sinclair,FALSE,TRUE,43.18
-200,Dining,Popeyes,TRUE,FALSE,22.96
-200,Lodging,Holiday Inn,FALSE,TRUE,438.52
-200,Miscellaneous,Walgreens,TRUE,FALSE,14.93
+Rick,Travel,Uber,FALSE,TRUE,35.23
+Rick,Travel,Jet Blue,FALSE,TRUE,199.99
+Rick,Dining,Krispy Kreme,TRUE,FALSE,10.34
+Rick,Lodging,Hilton,FALSE,TRUE,789.23
+Rick,Dining,McDonalds,TRUE,FALSE,15.49
+Rick,Miscellaneous,Walmart,TRUE,FALSE,21.14
+Rick,Miscellaneous,Best Buy,FALSE,TRUE,119.15
+Rick,Travel,Lyft,TRUE,FALSE,54.67
+Morty,Travel,Sinclair,FALSE,TRUE,43.18
+Morty,Dining,Popeyes,TRUE,FALSE,22.96
+Morty,Lodging,Holiday Inn,FALSE,TRUE,438.52
+Morty,Miscellaneous,Walgreens,TRUE,FALSE,14.93
+Homer,Dining,Moes Tavern,TRUE,FALSE,35.88
+Homer,Dining,Kwik-E-Mart,FALSE,TRUE,5.39
+Homer,Travel,Uber,FALSE,TRUE,15.42
+Homer,Lodging,Sleep-Eazy,TRUE,FALSE,74.12

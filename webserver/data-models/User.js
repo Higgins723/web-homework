@@ -1,17 +1,16 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const { model, Schema, SchemaTypes } = require('mongoose')
 
 const UserSchema = new Schema({
-  id: { type: Schema.Types.ObjectId },
+  id: { type: SchemaTypes.ObjectId },
   firstName: { type: String, default: null },
   lastName: { type: String, default: null },
   dob: { type: String, default: null }
 })
 
-const model = mongoose.model('user', UserSchema)
+const UserModel = model('user', UserSchema)
 
 module.exports = {
-  UserModel: model,
+  UserModel,
   UserSchema,
   default: UserSchema
 }

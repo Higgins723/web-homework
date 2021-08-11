@@ -34,13 +34,36 @@ module.exports = function main (options, cb) {
   // seed the database
   const seed = async () => {
     const { users, transactions } = await require('./helpers/loadData');
-    console.log(users, transactions);
+
+    const newUsers = await UserModel.insertMany(users);
+
+    const userFirstNameToId = newUsers.reduce((acc, cur) => {
+      acc[cur.firstName] = cur._id;
+      return acc;
+    }, {});
+
+    const newTransactions = transactions.map((t) => {
+      return {
+        ...t,
+        user_id: userFirstNameToId[t.user_id],
+        debit: t.debit === 'TRUE' ? true : false,
+        credit: t.credit === 'TRUE' ? true : false,
+        amount: parseFloat(t.amount),
+      }
+    });
+
+    await TransactionModel.insertMany(newTransactions);
   }
-  seed();
 
   mongoose.Promise = global.Promise
   mongoose.connect(MONGO_URI, {
     useNewUrlParser: true
+  }).then(async () => {
+    await Promise.all([
+      TransactionModel.deleteMany({}),
+      UserModel.deleteMany({})
+    ])
+    seed();
   })
 
   // Setup error handling
