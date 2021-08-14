@@ -1,3 +1,5 @@
+from datetime import datetime
+import pytz
 from rest_framework import generics
 from django.db.models import Q
 
@@ -14,6 +16,9 @@ class TransactionsAPIView(generics.ListAPIView):
     def get_queryset(self):
         qs = Transactions.objects.all()
         query = self.request.GET.get('q')
+        dateQueryStart = self.request.GET.get('start')
+        dateQueryEnd = self.request.GET.get('end')
+
         if query is not None:
             for search in query.split():
                 qs = qs.filter(
@@ -23,6 +28,15 @@ class TransactionsAPIView(generics.ListAPIView):
                         Q(description__icontains=search)
                     )
                 )
+
+        if dateQueryStart is not None and dateQueryEnd is not None:
+            start_date_list = list(map(int, dateQueryStart.split('-')))
+            end_date_list = list(map(int, dateQueryEnd.split('-')))
+            start_date = datetime(start_date_list[0], start_date_list[1], start_date_list[2], 0, 0, 0, 0, pytz.UTC)
+            end_date = datetime(end_date_list[0], end_date_list[1], end_date_list[2], 23, 59, 59, 999999, pytz.UTC)
+
+            qs = qs.filter(Q(timestamp__range=(start_date, end_date)))
+
         return qs
 
 class TransactionsCreateAPIView(generics.CreateAPIView):

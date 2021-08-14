@@ -16,6 +16,7 @@ class TransactionSerializer(serializers.ModelSerializer):
             'debit',
             'credit',
             'amount',
+            'timestamp',
         ]
 
     def to_representation(self, instance):
