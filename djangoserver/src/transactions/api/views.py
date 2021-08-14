@@ -1,16 +1,25 @@
 from datetime import datetime
 import pytz
 from rest_framework import generics
+from rest_framework.pagination import PageNumberPagination
 from django.db.models import Q
 
 from transactions.models import Transactions
 from .serializers import TransactionSerializer
 
 
+class ResultsSetPagination(PageNumberPagination):
+    # pagination count set low for demonstration purposes
+    page_size_query_param = 'page_size'
+    page_size = 10
+    max_page_size = 20
+
+
 class TransactionsAPIView(generics.ListAPIView):
     permission_classes = []
     authentication_classes = []
 
+    pagination_class = ResultsSetPagination
     serializer_class = TransactionSerializer
 
     def get_queryset(self):
