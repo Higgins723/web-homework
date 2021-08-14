@@ -29,6 +29,7 @@ class TransactionsAPIView(generics.ListAPIView):
         dateQueryEnd = self.request.GET.get('end')
         amountMin = self.request.GET.get('min')
         amountMax = self.request.GET.get('max')
+        cardType = self.request.GET.get('type')
 
         if query is not None:
             for search in query.split():
@@ -54,6 +55,12 @@ class TransactionsAPIView(generics.ListAPIView):
             qs = qs.filter(Q(amount__gte=amountMin))
         if amountMin is None and amountMax is not None:
             qs = qs.filter(Q(amount__lte=amountMax))
+
+        if cardType is not None:
+            if cardType == 'debit':
+                qs = qs.filter(Q(debit=True))
+            if cardType == 'credit':
+                qs = qs.filter(Q(credit=True))
 
         return qs
 
