@@ -27,6 +27,8 @@ class TransactionsAPIView(generics.ListAPIView):
         query = self.request.GET.get('q')
         dateQueryStart = self.request.GET.get('start')
         dateQueryEnd = self.request.GET.get('end')
+        amountMin = self.request.GET.get('min')
+        amountMax = self.request.GET.get('max')
 
         if query is not None:
             for search in query.split():
@@ -45,6 +47,13 @@ class TransactionsAPIView(generics.ListAPIView):
             end_date = datetime(end_date_list[0], end_date_list[1], end_date_list[2], 23, 59, 59, 999999, pytz.UTC)
 
             qs = qs.filter(Q(timestamp__range=(start_date, end_date)))
+
+        if amountMin is not None and amountMax is not None:
+            qs = qs.filter(Q(amount__gte=amountMin, amount__lte=amountMax))
+        if amountMin is not None and amountMax is None:
+            qs = qs.filter(Q(amount__gte=amountMin))
+        if amountMin is None and amountMax is not None:
+            qs = qs.filter(Q(amount__lte=amountMax))
 
         return qs
 
