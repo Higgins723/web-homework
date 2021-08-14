@@ -8,3 +8,7 @@ class Employees(models.Model):
 
     def __str__(self):
         return str(f'{self.last_name}, {self.first_name}')
+
+    class Meta:
+        verbose_name = 'Employee'
+        verbose_name_plural = 'Employees'

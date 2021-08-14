@@ -15,3 +15,7 @@ class Transactions(models.Model):
 
     def __str__(self):
         return str(f'{self.user.first_name} - {self.merchant.name} - {self.description}')
+
+    class Meta:
+        verbose_name = 'Transaction'
+        verbose_name_plural = 'Transactions'

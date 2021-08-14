@@ -7,3 +7,7 @@ class Merchants(models.Model):
 
     def __str__(self):
         return str(self.name)
+
+    class Meta:
+        verbose_name = 'Merchant'
+        verbose_name_plural = 'Merchants'
