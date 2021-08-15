@@ -2,8 +2,13 @@ from datetime import datetime
 import pytz
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.response import Response
 from django.db.models import Q
 
+from merchants.models import Merchants
+from merchants.api.serializers import MerchantsSerializer
+from employees.models import Employees
+from employees.api.serializers import EmployeesSerializer
 from transactions.models import Transactions
 from .serializers import TransactionSerializer
 
@@ -70,6 +75,30 @@ class TransactionsCreateAPIView(generics.CreateAPIView):
 
     queryset = Transactions.objects.all()
     serializer_class = TransactionSerializer
+
+    def create(self, request, *args, **kwargs):
+        transaction_data = request.data
+
+        merchant = transaction_data['merchant']
+        if type(merchant) is dict:
+            new_merchant = Merchants.objects.create(name=merchant['name'], category=merchant['category'])
+            new_merchant.save()
+            serializer = MerchantsSerializer(new_merchant)
+            transaction_data['merchant'] = serializer.data['id']
+        if type(merchant) is int:
+            transaction_data['merchant'] = merchant
+
+        new_transaction = Transactions.objects.create(
+            user=Employees.objects.get(id=transaction_data['user']),
+            merchant=Merchants.objects.get(id=transaction_data['merchant']),
+            description=transaction_data['description'],
+            debit=transaction_data['debit'],
+            credit=transaction_data['credit'],
+            amount=transaction_data['amount']
+        )
+        new_transaction.save()
+        new_transaction_serializer = TransactionSerializer(new_transaction)
+        return Response(new_transaction_serializer.data)
 
 class TransactionsDetailAPIView(generics.RetrieveAPIView):
     permission_classes = []
