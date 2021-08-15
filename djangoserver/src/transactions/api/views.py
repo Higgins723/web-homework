@@ -78,3 +78,19 @@ class TransactionsDetailAPIView(generics.RetrieveAPIView):
     queryset = Transactions.objects.all()
     serializer_class = TransactionSerializer
     lookup_field = 'id'
+
+class TransactionsUpdateAPIView(generics.UpdateAPIView):
+    permission_classes = []
+    authentication_classes = []
+
+    queryset = Transactions.objects.all()
+    serializer_class = TransactionSerializer
+    lookup_field = 'id'
+
+class TransactionsDeleteAPIView(generics.DestroyAPIView):
+    permission_classes = []
+    authentication_classes = []
+
+    queryset = Transactions.objects.all()
+    serializer_class = TransactionSerializer
+    lookup_field = 'id'

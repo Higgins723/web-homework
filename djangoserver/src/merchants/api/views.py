@@ -33,3 +33,18 @@ class MerchantsDetailAPIView(generics.RetrieveAPIView):
     serializer_class = MerchantsSerializer
     lookup_field = 'id'
 
+class MerchantsUpdateAPIView(generics.UpdateAPIView):
+    permission_classes = []
+    authentication_classes = []
+
+    queryset = Merchants.objects.all()
+    serializer_class = MerchantsSerializer
+    lookup_field = 'id'
+
+class MerchantsDeleteAPIView(generics.DestroyAPIView):
+    permission_classes = []
+    authentication_classes = []
+
+    queryset = Merchants.objects.all()
+    serializer_class = MerchantsSerializer
+    lookup_field = 'id'

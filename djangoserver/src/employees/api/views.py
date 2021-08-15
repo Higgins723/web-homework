@@ -33,3 +33,19 @@ class EmployeesDetailAPIView(generics.RetrieveAPIView):
     queryset = Employees.objects.all()
     serializer_class = EmployeesSerializer
     lookup_field = 'id'
+
+class EmployeesUpdateAPIView(generics.UpdateAPIView):
+    permission_classes = []
+    authentication_classes = []
+
+    queryset = Employees.objects.all()
+    serializer_class = EmployeesSerializer
+    lookup_field = 'id'
+
+class EmployeesDeleteAPIView(generics.DestroyAPIView):
+    permission_classes = []
+    authentication_classes = []
+
+    queryset = Employees.objects.all()
+    serializer_class = EmployeesSerializer
+    lookup_field = 'id'
