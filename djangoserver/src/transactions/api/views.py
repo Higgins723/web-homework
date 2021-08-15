@@ -23,7 +23,7 @@ class TransactionsAPIView(generics.ListAPIView):
     serializer_class = TransactionSerializer
 
     def get_queryset(self):
-        qs = Transactions.objects.all()
+        qs = Transactions.objects.all().order_by('-id')
         query = self.request.GET.get('q')
         dateQueryStart = self.request.GET.get('start')
         dateQueryEnd = self.request.GET.get('end')
