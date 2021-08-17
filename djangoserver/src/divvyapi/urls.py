@@ -19,10 +19,12 @@ from django.urls import path, include
 from transactions.api import urls as transactions_urls
 from employees.api import urls as employees_urls
 from merchants.api import urls as merchants_urls
+from companies.api import urls as companies_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/transactions/', include(transactions_urls)),
     path('api/employees/', include(employees_urls)),
     path('api/merchants/', include(merchants_urls)),
+    path('api/companies/', include(companies_urls)),
 ]

@@ -1,6 +1,6 @@
 from datetime import datetime
 import pytz
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from django.db.models import Q
@@ -11,6 +11,8 @@ from employees.models import Employees
 from employees.api.serializers import EmployeesSerializer
 from transactions.models import Transactions
 from .serializers import TransactionSerializer
+from companies.models import Companies
+from companies.api.serializers import CompanyNonEmployeeSerializer
 
 
 class ResultsSetPagination(PageNumberPagination):
@@ -79,14 +81,35 @@ class TransactionsCreateAPIView(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         transaction_data = request.data
 
+        # create or get id for merchant
         merchant = transaction_data['merchant']
         if type(merchant) is dict:
-            new_merchant = Merchants.objects.create(name=merchant['name'], category=merchant['category'])
-            new_merchant.save()
-            serializer = MerchantsSerializer(new_merchant)
-            transaction_data['merchant'] = serializer.data['id']
+            try:
+                obj, created = Merchants.objects.get_or_create(name=merchant['name'], category=merchant['category'])
+                merchant_data = MerchantsSerializer(obj).data
+                transaction_data['merchant'] = merchant_data['id']
+            except:
+                return Response({'error': 'Error creating merchant'}, status=status.HTTP_403_FORBIDDEN)
         if type(merchant) is int:
             transaction_data['merchant'] = merchant
+
+        # get company information based on user who created transaction
+        employee = Employees.objects.get(id=transaction_data['user'])
+        employee_serialized = EmployeesSerializer(employee).data
+        company = Companies.objects.get(id=employee_serialized['company']['id'])
+        company_serialized = CompanyNonEmployeeSerializer(company).data
+        limit = company_serialized['available_credit']
+        amount = transaction_data['amount']
+
+        # check if company credit limit has enough funds to cover new transaction
+        new_limit = round(limit - amount, 2)
+        if new_limit > 0:
+            Companies.objects.filter(id=employee_serialized['company']['id']).update(available_credit=new_limit)
+        else:
+            return Response(
+                {'error': f'Company {company_serialized["name"]} does not have enough credit to cover purchase of {amount}'},
+                status=status.HTTP_403_FORBIDDEN
+            )
 
         new_transaction = Transactions.objects.create(
             user=Employees.objects.get(id=transaction_data['user']),
