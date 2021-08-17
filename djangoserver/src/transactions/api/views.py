@@ -81,6 +81,12 @@ class TransactionsCreateAPIView(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         transaction_data = request.data
 
+        # ensure credit and debit pass requirements
+        if transaction_data['debit'] and transaction_data['credit']:
+            return Response({'error': 'Debit and Credit can both not be True'}, status=status.HTTP_403_FORBIDDEN)
+        if not transaction_data['debit'] and not transaction_data['credit']:
+            return Response({'error': 'Debit or Credit must be True'}, status=status.HTTP_403_FORBIDDEN)
+
         # create or get id for merchant
         merchant = transaction_data['merchant']
         if type(merchant) is dict:
@@ -103,25 +109,32 @@ class TransactionsCreateAPIView(generics.CreateAPIView):
 
         # check if company credit limit has enough funds to cover new transaction
         new_limit = round(limit - amount, 2)
-        if new_limit > 0:
-            Companies.objects.filter(id=employee_serialized['company']['id']).update(available_credit=new_limit)
-        else:
+        if not new_limit > 0:
             return Response(
                 {'error': f'Company {company_serialized["name"]} does not have enough credit to cover purchase of {amount}'},
                 status=status.HTTP_403_FORBIDDEN
             )
+        else:
+            try:
+                new_transaction = Transactions.objects.create(
+                    user=Employees.objects.get(id=transaction_data['user']),
+                    merchant=Merchants.objects.get(id=transaction_data['merchant']),
+                    description=transaction_data['description'],
+                    debit=transaction_data['debit'],
+                    credit=transaction_data['credit'],
+                    amount=transaction_data['amount']
+                )
+                new_transaction.save()
+                new_transaction_serializer = TransactionSerializer(new_transaction)
 
-        new_transaction = Transactions.objects.create(
-            user=Employees.objects.get(id=transaction_data['user']),
-            merchant=Merchants.objects.get(id=transaction_data['merchant']),
-            description=transaction_data['description'],
-            debit=transaction_data['debit'],
-            credit=transaction_data['credit'],
-            amount=transaction_data['amount']
-        )
-        new_transaction.save()
-        new_transaction_serializer = TransactionSerializer(new_transaction)
-        return Response(new_transaction_serializer.data)
+                # update company available credit limit
+                Companies.objects.filter(id=employee_serialized['company']['id']).update(available_credit=new_limit)
+
+                return Response(new_transaction_serializer.data)
+            except:
+                return Response({'error': 'Error creating transaction'}, status=status.HTTP_403_FORBIDDEN)
+
+
 
 class TransactionsDetailAPIView(generics.RetrieveAPIView):
     permission_classes = []
