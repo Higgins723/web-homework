@@ -229,4 +229,25 @@ class TransactionsDeleteAPIView(generics.DestroyAPIView):
     lookup_field = 'id'
 
     def delete(self, request, *args, **kwargs):
-        pass
+        id = kwargs['id']
+        transaction = Transactions.objects.get(id=id)
+        transactions_serialized = TransactionSerializer(transaction).data
+
+        company_id = transactions_serialized['user']['company']['id']
+        company = Companies.objects.get(id=company_id)
+        company_serialized = CompanyNonEmployeeSerializer(company).data
+
+        available_credit = company_serialized['available_credit']
+        amount = transactions_serialized['amount']
+        total = round(available_credit + amount, 2)
+
+        try:
+            # delete transaction
+            Transactions.objects.filter(id=id).delete()
+
+            # update company available credit limit
+            Companies.objects.filter(id=company_id).update(available_credit=total)
+
+            return Response({'success': f'Transaction/{id}/ was deleted'}, status=status.HTTP_204_NO_CONTENT)
+        except:
+            return Response({'error': 'Error deleting transaction'}, status=status.HTTP_403_FORBIDDEN)
