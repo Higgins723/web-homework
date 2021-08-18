@@ -5,6 +5,7 @@ import {
   Route
 } from 'react-router-dom'
 import Navigation from './Navigation'
+import Home from './components/Home'
 
 const App = () => {
   return (
@@ -12,7 +13,7 @@ const App = () => {
       <div className='flex justify-start'>
         <Navigation />
 
-        <div className='p-10'>
+        <div className='p-10 flex-1'>
           <Switch>
             <Route path='/transactions'>
               transactions
@@ -27,7 +28,7 @@ const App = () => {
               employees
             </Route>
             <Route path='/'>
-              home
+              <Home />
             </Route>
           </Switch>
         </div>
