@@ -4,7 +4,7 @@ import App from './App'
 
 ReactDOM.render(
   (
-    <div data-app-init=''>
+    <div className='bg-white font-sans' data-app-init=''>
       <App />
     </div>
   ),
