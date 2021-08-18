@@ -48,7 +48,7 @@ const Navigation = () => {
   return (
     <div className='w-64 h-screen bg-gray-100 shadow'>
       <div className='flex items-center justify-center mt-10'>
-        <img alt='Divvy Logo' className='h-6' src='https://app.divvy.co/assets/icons/favicon.ico' />
+        <img alt='Divvy Logo' className='h-10' src='https://s3-us-west-1.amazonaws.com/companies.comparably.com/111889_logo_divvy.png' />
       </div>
 
       <nav className='mt-10'>
