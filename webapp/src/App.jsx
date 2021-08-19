@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom'
 import Navigation from './Navigation'
 import Home from './components/Home'
+import Employees from './components/Employees'
 
 const App = () => {
   return (
@@ -25,7 +26,7 @@ const App = () => {
               merchants
             </Route>
             <Route path='/employees'>
-              employees
+              <Employees />
             </Route>
             <Route path='/'>
               <Home />
