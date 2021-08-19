@@ -8,6 +8,7 @@ import {
 import axios from 'axios'
 import { Header, Loading, Button } from '../Common'
 import EditMerchant from './EditMerchant'
+import CreateMerchant from './CreateMerchant'
 
 const Merchants = () => {
   let match = useRouteMatch()
@@ -40,7 +41,7 @@ const Merchants = () => {
         </Route>
 
         <Route path={`${match.path}/create`}>
-          create
+          <CreateMerchant match={match} />
         </Route>
 
         <Route path={match.path}>
