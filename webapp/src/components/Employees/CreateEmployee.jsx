@@ -98,10 +98,11 @@ const CreateEmployee = (props) => {
           value={newUser.dob}
         />
         <FormContent
-          companies={companies}
           handleChange={handleChange}
           htmlFor='inline-company'
           labelName='Company'
+          selectData={companies}
+          selectValue='id'
           target='company'
           typeSelect
           value={newUser.company}

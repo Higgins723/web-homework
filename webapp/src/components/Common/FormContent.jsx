@@ -12,7 +12,8 @@ const FormContent = (props) => {
     labelName,
     htmlFor,
     target,
-    companies,
+    selectData,
+    selectValue,
     children
   } = props
 
@@ -38,12 +39,12 @@ const FormContent = (props) => {
         <select
           className={`block ${inputCss}`}
           id={htmlFor}
-          onChange={(event) => handleChange(parseInt(event.target.value), target)}
+          onChange={(event) => handleChange((selectValue === 'id' ? parseInt(event.target.value) : event.target.value), target)}
           required
           value={value}
         >
-          {companies.map((company) => (
-            <option key={company.id} value={company.id}>{company.name}</option>
+          {selectData.map((obj) => (
+            <option key={obj.id} value={selectValue === 'id' ? obj.id : obj.name}>{obj.name}</option>
           ))}
         </select>
         <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700'>
@@ -86,7 +87,8 @@ FormContent.propTypes = {
   labelName: PropTypes.string,
   htmlFor: PropTypes.string,
   target: PropTypes.string,
-  companies: PropTypes.instanceOf(Object),
+  selectData: PropTypes.instanceOf(Object),
+  selectValue: PropTypes.oneOf(['id', 'name']),
   children: PropTypes.element
 }
 
@@ -99,7 +101,8 @@ FormContent.defaultProps = {
   labelName: '',
   htmlFor: '',
   target: '',
-  companies: [],
+  selectData: [],
+  selectValue: 'id',
   children: <></>
 }
 

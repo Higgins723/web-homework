@@ -7,6 +7,7 @@ import {
 import Navigation from './Navigation'
 import Home from './components/Home'
 import Employees from './components/Employees'
+import Merchants from './components/Merchants'
 
 const App = () => {
   return (
@@ -23,7 +24,7 @@ const App = () => {
               companies
             </Route>
             <Route path='/merchants'>
-              merchants
+              <Merchants />
             </Route>
             <Route path='/employees'>
               <Employees />
