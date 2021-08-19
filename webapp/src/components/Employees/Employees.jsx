@@ -26,13 +26,12 @@ const Employees = () => {
 
   useEffect(() => {
     fetch()
-  }, [])
+  }, [match])
 
   if (error) return <div className='text-center'>There was an error requesting Employees</div>
 
   if (!employees) return <Loading />
 
-  console.log('hit employees')
   return (
     <>
       <Switch>
