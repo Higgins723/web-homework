@@ -12,7 +12,7 @@ class EmployeesAPIView(generics.ListAPIView):
     serializer_class = EmployeesSerializer
 
     def get_queryset(self):
-        qs = Employees.objects.all()
+        qs = Employees.objects.all().order_by('-id')
         query = self.request.GET.get('q')
         if query is not None:
             for name in query.split():

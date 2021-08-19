@@ -3,6 +3,7 @@ import {
   faArrowLeft
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Header } from '../Common'
 
 const Home = () => {
   const tableInformation = [
@@ -34,7 +35,7 @@ const Home = () => {
 
   return (
     <div>
-      <h1 className='font-thin text-3xl mb-7'>Hello Divvy</h1>
+      <Header name='Hello Divvy' />
       <p className='font-light'>
         This app is my frontend portion of the assignment.
         I decided to do the backend piece in <code>Django</code> because it made it easier to showcase my ability.

@@ -1,3 +1,7 @@
 {
-    "extends": "divvy"
+    "extends": "divvy",
+    "rules": { 
+        // this is outdates rule now: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-onchange.md
+        "jsx-a11y/no-onchange": "off"
+     }
 }
