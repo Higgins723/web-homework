@@ -67,12 +67,7 @@ const CreateEmployee = (props) => {
 
   return (
     <>
-      <div className='flex'>
-        <Header name='Employees - Create' />
-        <Link className='ml-5' to={match.path}>
-          <Button color='bg-red-500' name='Cancel' />
-        </Link>
-      </div>
+      <Header name='Employees - Create' />
 
       <form className='w-full max-w-sm'>
         <div className='md:flex md:items-center mb-6'>
@@ -153,7 +148,7 @@ const CreateEmployee = (props) => {
         </div>
         <div className='md:flex md:items-center'>
           <div className='md:w-1/3' />
-          <div className='md:w-2/3'>
+          <div className='md:w-2/3 flex'>
             <button
               className='shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
               onClick={() => createUser()}
@@ -161,6 +156,9 @@ const CreateEmployee = (props) => {
             >
               Create
             </button>
+            <Link className='ml-5' to={match.path}>
+              <Button color='bg-red-500' name='Cancel' />
+            </Link>
           </div>
         </div>
       </form>
