@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormContent } from '../Common'
 
 const ApiQuery = (props) => {
-  const { query, updateQuery } = props
+  const { query, updateQuery, setCurPage } = props
 
   const handleChange = (value, target) => {
     updateQuery(prev => ({
@@ -21,6 +21,8 @@ const ApiQuery = (props) => {
       max: '',
       type: ''
     })
+
+    setCurPage(1)
 
     // clear selected radio buttons for transaction type
     const nodes = document.querySelectorAll('label input')
@@ -111,7 +113,8 @@ const ApiQuery = (props) => {
 
 ApiQuery.propTypes = {
   query: PropTypes.instanceOf(Object).isRequired,
-  updateQuery: PropTypes.func.isRequired
+  updateQuery: PropTypes.func.isRequired,
+  setCurPage: PropTypes.func.isRequired
 }
 
 export default ApiQuery

@@ -57,7 +57,9 @@ const Transactions = () => {
       }
     }
 
-    setCurPage(1)
+    if (results.length > 0) {
+      setCurPage(1)
+    }
     setQueryLink(results)
   }, [query])
 
@@ -85,7 +87,7 @@ const Transactions = () => {
 
           <CustomSwitch label='Show Roman:' toggle={() => setShowRoman(!showRoman)} value={showRoman} />
 
-          <ApiQuery query={query} updateQuery={updateQuery} />
+          <ApiQuery query={query} setCurPage={setCurPage} updateQuery={updateQuery} />
 
           <table className='table-auto mt-3 mb-10'>
             <thead>
