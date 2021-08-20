@@ -14,6 +14,15 @@ const Transactions = () => {
   const [transactions, setTransactions] = useState(null)
   const [error, setError] = useState(null)
   const [pageCount, setPageCount] = useState(0)
+  const [curPage, setCurPage] = useState(1)
+  // const [query, updateQuery] = useState({
+  //   q: null,
+  //   start: null,
+  //   end: null,
+  //   min: null,
+  //   max: null,
+  //   type: null
+  // })
 
   const fetch = () => {
     axios.get('http://localhost:8000/api/transactions/')
@@ -93,7 +102,9 @@ const Transactions = () => {
           </table>
 
           <Pagination
+            curPage={curPage}
             pageCount={pageCount}
+            setCurPage={setCurPage}
           />
 
           <Link to={`${match.url}/create`}>
