@@ -6,7 +6,7 @@ import {
   Route
 } from 'react-router-dom'
 import axios from 'axios'
-import { Header, Loading, Button } from '../Common'
+import { Header, Loading, Button, formatCurrency } from '../Common'
 import CreateCompany from './CreateCompany'
 
 const Companies = () => {
@@ -27,15 +27,6 @@ const Companies = () => {
   useEffect(() => {
     fetch()
   }, [match])
-
-  const formatCurrency = (value) => {
-    const newValue = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    })
-
-    return newValue.format(value)
-  }
 
   if (error) return <div className='text-center'>There was an error requesting Companies</div>
 

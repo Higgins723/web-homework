@@ -9,6 +9,7 @@ import Home from './components/Home'
 import Employees from './components/Employees'
 import Merchants from './components/Merchants'
 import Companies from './components/Companies'
+import Transactions from './components/Transactions'
 
 const App = () => {
   return (
@@ -19,7 +20,7 @@ const App = () => {
         <div className='p-10 flex-1'>
           <Switch>
             <Route path='/transactions'>
-              transactions
+              <Transactions />
             </Route>
             <Route path='/companies'>
               <Companies />
