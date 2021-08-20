@@ -17,7 +17,7 @@ const App = () => {
       <div className='flex justify-start'>
         <Navigation />
 
-        <div className='p-10 flex-1'>
+        <div className='p-10 flex-1 ml-64'>
           <Switch>
             <Route path='/transactions'>
               <Transactions />

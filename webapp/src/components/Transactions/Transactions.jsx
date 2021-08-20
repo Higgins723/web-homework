@@ -92,7 +92,9 @@ const Transactions = () => {
             </tbody>
           </table>
 
-          <Pagination />
+          <Pagination
+            pageCount={pageCount}
+          />
 
           <Link to={`${match.url}/create`}>
             <Button color='bg-green-600' name='Create Transaction' />
