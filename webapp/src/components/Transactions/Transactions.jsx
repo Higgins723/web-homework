@@ -7,16 +7,19 @@ import {
 } from 'react-router-dom'
 import axios from 'axios'
 import { Header, Loading, Button, formatCurrency } from '../Common'
+import Pagination from './Pagination'
 
 const Transactions = () => {
   let match = useRouteMatch()
   const [transactions, setTransactions] = useState(null)
   const [error, setError] = useState(null)
+  const [pageCount, setPageCount] = useState(0)
 
   const fetch = () => {
     axios.get('http://localhost:8000/api/transactions/')
       .then(({ data }) => {
         setTransactions(data.results)
+        setPageCount(Math.ceil(data.count / 5))
       })
       .catch(() => {
         setError(true)
@@ -52,6 +55,7 @@ const Transactions = () => {
           <table className='table-auto mt-3 mb-10'>
             <thead>
               <tr>
+                <th className='px-4 py-2'>Id</th>
                 <th className='px-4 py-2'>User</th>
                 <th className='px-4 py-2'>Company</th>
                 <th className='px-4 py-2'>Merchant</th>
@@ -65,6 +69,7 @@ const Transactions = () => {
             <tbody>
               {transactions.map((table, i) => (
                 <tr className={i % 2 === 0 ? 'bg-gray-100' : ''} key={table.id}>
+                  <td className='border px-4 py-2'>{table.id}</td>
                   <td className='border px-4 py-2'>{table.user.first_name} {table.user.last_name}</td>
                   <td className='border px-4 py-2'>{table.user.company.name}</td>
                   <td className='border px-4 py-2'>{table.merchant.name}</td>
@@ -86,6 +91,8 @@ const Transactions = () => {
               ))}
             </tbody>
           </table>
+
+          <Pagination />
 
           <Link to={`${match.url}/create`}>
             <Button color='bg-green-600' name='Create Transaction' />

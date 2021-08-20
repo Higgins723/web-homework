@@ -18,8 +18,8 @@ from companies.api.serializers import CompanyNonEmployeeSerializer
 class ResultsSetPagination(PageNumberPagination):
     # pagination count set low for demonstration purposes
     page_size_query_param = 'page_size'
-    page_size = 10
-    max_page_size = 20
+    page_size = 5
+    max_page_size = 100
 
 
 class TransactionsAPIView(generics.ListAPIView):
