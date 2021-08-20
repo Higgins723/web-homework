@@ -16,6 +16,7 @@ const FormContent = (props) => {
     selectValue,
     inputType,
     radioOptions,
+    required,
     children
   } = props
 
@@ -36,7 +37,7 @@ const FormContent = (props) => {
                   name='Type'
                   onChange={(event) => handleChange(event.target.value, target)}
                   placeholder={placeholder}
-                  required
+                  required={required}
                   type={inputType}
                   value={option}
                 />
@@ -52,7 +53,7 @@ const FormContent = (props) => {
           id={htmlFor}
           onChange={(event) => handleChange(event.target.value, target)}
           placeholder={placeholder}
-          required
+          required={required}
           type={inputType}
           value={value}
         />
@@ -64,7 +65,7 @@ const FormContent = (props) => {
           className={`block ${inputCss}`}
           id={htmlFor}
           onChange={(event) => handleChange((selectValue === 'id' ? parseInt(event.target.value) : event.target.value), target)}
-          required
+          required={required}
           value={value}
         >
           {selectData.map((obj) => (
@@ -115,6 +116,7 @@ FormContent.propTypes = {
   selectValue: PropTypes.oneOf(['id', 'name']),
   inputType: PropTypes.string,
   radioOptions: PropTypes.instanceOf(Array),
+  required: PropTypes.bool,
   children: PropTypes.element
 }
 
@@ -131,6 +133,7 @@ FormContent.defaultProps = {
   selectValue: 'id',
   inputType: 'text',
   radioOptions: [],
+  required: true,
   children: <></>
 }
 
