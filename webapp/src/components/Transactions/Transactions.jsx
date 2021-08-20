@@ -25,7 +25,7 @@ const Transactions = () => {
   // })
 
   const fetch = () => {
-    axios.get('http://localhost:8000/api/transactions/')
+    axios.get(`http://localhost:8000/api/transactions/?page=${curPage}`)
       .then(({ data }) => {
         setTransactions(data.results)
         setPageCount(Math.ceil(data.count / 5))
@@ -37,7 +37,7 @@ const Transactions = () => {
 
   useEffect(() => {
     fetch()
-  }, [match])
+  }, [match, curPage])
 
   if (error) return <div className='text-center'>There was an error requesting Transactions</div>
 
