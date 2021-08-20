@@ -6,11 +6,13 @@ import {
   Route
 } from 'react-router-dom'
 import axios from 'axios'
-import { Header, Loading, Button, formatCurrency } from '../Common'
+import { Header, Loading, Button, formatCurrency, numToRoman } from '../Common'
 import Pagination from './Pagination'
+import CustomSwitch from './CustomSwitch'
 
 const Transactions = () => {
   let match = useRouteMatch()
+  const [showRoman, setShowRoman] = useState(false)
   const [transactions, setTransactions] = useState(null)
   const [error, setError] = useState(null)
   const [pageCount, setPageCount] = useState(0)
@@ -61,6 +63,8 @@ const Transactions = () => {
         <Route path={match.path}>
           <Header name='Transactions' />
 
+          <CustomSwitch label='Show Roman:' toggle={() => setShowRoman(!showRoman)} value={showRoman} />
+
           <table className='table-auto mt-3 mb-10'>
             <thead>
               <tr>
@@ -78,7 +82,7 @@ const Transactions = () => {
             <tbody>
               {transactions.map((table, i) => (
                 <tr className={i % 2 === 0 ? 'bg-gray-100' : ''} key={table.id}>
-                  <td className='border px-4 py-2'>{table.id}</td>
+                  <td className='border px-4 py-2'>{showRoman ? numToRoman(table.id) : table.id}</td>
                   <td className='border px-4 py-2'>{table.user.first_name} {table.user.last_name}</td>
                   <td className='border px-4 py-2'>{table.user.company.name}</td>
                   <td className='border px-4 py-2'>{table.merchant.name}</td>
