@@ -15,14 +15,37 @@ const FormContent = (props) => {
     selectData,
     selectValue,
     inputType,
+    radioOptions,
     children
   } = props
 
   const labelCss = 'block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4'
   const inputCss = 'bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500'
+  const inputRadioCss = 'form-radio'
 
   const inputOrSelect = () => {
     if (typeInput) {
+      if (inputType === 'radio') {
+        return (
+          <>
+            {radioOptions.map((option) => (
+              <label className='inline-flex items-center ml-3' key={option}>
+                <input
+                  className={inputRadioCss}
+                  id={htmlFor}
+                  name='Type'
+                  onChange={(event) => handleChange(event.target.value, target)}
+                  placeholder={placeholder}
+                  required
+                  type={inputType}
+                  value={option}
+                />
+                <span className='ml-2'>{option}</span>
+              </label>
+            ))}
+          </>
+        )
+      }
       return (
         <input
           className={inputCss}
@@ -91,6 +114,7 @@ FormContent.propTypes = {
   selectData: PropTypes.instanceOf(Object),
   selectValue: PropTypes.oneOf(['id', 'name']),
   inputType: PropTypes.string,
+  radioOptions: PropTypes.instanceOf(Array),
   children: PropTypes.element
 }
 
@@ -106,6 +130,7 @@ FormContent.defaultProps = {
   selectData: [],
   selectValue: 'id',
   inputType: 'text',
+  radioOptions: [],
   children: <></>
 }
 

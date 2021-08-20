@@ -9,6 +9,7 @@ import axios from 'axios'
 import { Header, Loading, Button, formatCurrency, numToRoman } from '../Common'
 import Pagination from './Pagination'
 import CustomSwitch from './CustomSwitch'
+import ApiQuery from './ApiQuery'
 
 const Transactions = () => {
   let match = useRouteMatch()
@@ -17,14 +18,14 @@ const Transactions = () => {
   const [error, setError] = useState(null)
   const [pageCount, setPageCount] = useState(0)
   const [curPage, setCurPage] = useState(1)
-  // const [query, updateQuery] = useState({
-  //   q: null,
-  //   start: null,
-  //   end: null,
-  //   min: null,
-  //   max: null,
-  //   type: null
-  // })
+  const [query, updateQuery] = useState({
+    q: '',
+    start: '',
+    end: '',
+    min: '',
+    max: '',
+    type: ''
+  })
 
   const fetch = () => {
     axios.get(`http://localhost:8000/api/transactions/?page=${curPage}`)
@@ -64,6 +65,8 @@ const Transactions = () => {
           <Header name='Transactions' />
 
           <CustomSwitch label='Show Roman:' toggle={() => setShowRoman(!showRoman)} value={showRoman} />
+
+          <ApiQuery query={query} updateQuery={updateQuery} />
 
           <table className='table-auto mt-3 mb-10'>
             <thead>
