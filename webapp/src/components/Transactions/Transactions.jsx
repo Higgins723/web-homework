@@ -26,9 +26,10 @@ const Transactions = () => {
     max: '',
     type: ''
   })
+  const [queryLink, setQueryLink] = useState(null)
 
   const fetch = () => {
-    axios.get(`http://localhost:8000/api/transactions/?page=${curPage}`)
+    axios.get(`http://localhost:8000/api/transactions/?page=${curPage}${queryLink || ''}`)
       .then(({ data }) => {
         setTransactions(data.results)
         setPageCount(Math.ceil(data.count / 5))
@@ -40,7 +41,25 @@ const Transactions = () => {
 
   useEffect(() => {
     fetch()
-  }, [match, curPage])
+  }, [match, curPage, queryLink])
+
+  useEffect(() => {
+    const { start, end } = query
+    let results = ''
+
+    if (start.length > 0 && end.length > 0) {
+      results += `&start=${start}&end=${end}`
+    }
+
+    for (const [key, value] of Object.entries(query)) {
+      if (value.length > 0 && (key !== 'start' && key !== 'end')) {
+        results += `&${key}=${value.toLowerCase()}`
+      }
+    }
+
+    setCurPage(1)
+    setQueryLink(results)
+  }, [query])
 
   if (error) return <div className='text-center'>There was an error requesting Transactions</div>
 
@@ -107,6 +126,13 @@ const Transactions = () => {
               ))}
             </tbody>
           </table>
+
+          {transactions.length === 0 && (
+            <div className='bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded max-w-sm -mt-7 mb-6' role='alert'>
+              <strong className='font-bold mr-3'>Sorry</strong>
+              <span className='block sm:inline'>There is no data matching your query.</span>
+            </div>
+          )}
 
           <Pagination
             curPage={curPage}
