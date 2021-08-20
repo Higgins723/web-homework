@@ -33,12 +33,16 @@ const Pagination = (props) => {
 
   const selectedCss = 'z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium'
   const defaultCss = 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium'
-  const arrowCss = 'relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50'
+  const arrowCss = 'disabled disabled:opacity-50 disabled:cursor-not-allowed relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50'
 
   return (
     <div className='my-6'>
       <nav aria-label='Pagination' className='relative z-0 inline-flex rounded-md shadow-sm -space-x-px'>
-        <button className={`rounded-l-md ${arrowCss}`}>
+        <button
+          className={`rounded-l-md ${arrowCss} ${curPage === 1 ? 'cursor-not-allowed' : ''}`}
+          disabled={curPage === 1}
+          onClick={() => setCurPage(curPage - 1)}
+        >
           <span className='sr-only'>Previous</span>
           <svg aria-hidden='true' className='h-5 w-5' fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
             <path clipRule='evenodd' d='M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z' fillRule='evenodd' />
@@ -49,7 +53,11 @@ const Pagination = (props) => {
             {option.number}
           </button>
         ))}
-        <button className={`rounded-r-md ${arrowCss}`}>
+        <button
+          className={`rounded-r-md ${arrowCss} ${pageCount === curPage ? 'cursor-not-allowed' : ''}`}
+          disabled={pageCount === curPage}
+          onClick={() => setCurPage(curPage + 1)}
+        >
           <span className='sr-only'>Next</span>
           <svg aria-hidden='true' className='h-5 w-5' fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
             <path clipRule='evenodd' d='M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z' fillRule='evenodd' />
