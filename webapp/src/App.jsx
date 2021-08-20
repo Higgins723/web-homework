@@ -8,6 +8,7 @@ import Navigation from './Navigation'
 import Home from './components/Home'
 import Employees from './components/Employees'
 import Merchants from './components/Merchants'
+import Companies from './components/Companies'
 
 const App = () => {
   return (
@@ -21,7 +22,7 @@ const App = () => {
               transactions
             </Route>
             <Route path='/companies'>
-              companies
+              <Companies />
             </Route>
             <Route path='/merchants'>
               <Merchants />

@@ -14,6 +14,7 @@ const FormContent = (props) => {
     target,
     selectData,
     selectValue,
+    inputType,
     children
   } = props
 
@@ -29,7 +30,7 @@ const FormContent = (props) => {
           onChange={(event) => handleChange(event.target.value, target)}
           placeholder={placeholder}
           required
-          type='text'
+          type={inputType}
           value={value}
         />
       )
@@ -89,6 +90,7 @@ FormContent.propTypes = {
   target: PropTypes.string,
   selectData: PropTypes.instanceOf(Object),
   selectValue: PropTypes.oneOf(['id', 'name']),
+  inputType: PropTypes.string,
   children: PropTypes.element
 }
 
@@ -103,6 +105,7 @@ FormContent.defaultProps = {
   target: '',
   selectData: [],
   selectValue: 'id',
+  inputType: 'text',
   children: <></>
 }
 
