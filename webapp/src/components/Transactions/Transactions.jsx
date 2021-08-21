@@ -109,7 +109,7 @@ const Transactions = () => {
             <tbody>
               {transactions.map((table, i) => (
                 <tr className={i % 2 === 0 ? 'bg-gray-100' : ''} key={table.id}>
-                  <td className='border px-4 py-2'>{showRoman ? numToRoman(table.id) : table.id}</td>
+                  <td className='border px-4 py-2 w-16'>{showRoman ? numToRoman(table.id) : table.id}</td>
                   <td className='border px-4 py-2'>{table.user.first_name} {table.user.last_name}</td>
                   <td className='border px-4 py-2'>{table.user.company.name}</td>
                   <td className='border px-4 py-2'>{table.merchant.name}</td>

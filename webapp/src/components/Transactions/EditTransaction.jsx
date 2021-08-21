@@ -70,7 +70,7 @@ const EditTransaction = (props) => {
       description: transaction.description,
       debit: transaction.debit,
       credit: transaction.credit,
-      amount: transaction.amount
+      amount: parseFloat(transaction.amount)
     })
       .then(() => {
         setUpdated(true)
