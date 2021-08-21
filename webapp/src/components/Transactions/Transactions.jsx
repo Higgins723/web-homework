@@ -10,6 +10,7 @@ import { Header, Loading, Button, formatCurrency, numToRoman } from '../Common'
 import Pagination from './Pagination'
 import CustomSwitch from './CustomSwitch'
 import ApiQuery from './ApiQuery'
+import EditTransaction from './EditTransaction'
 
 const Transactions = () => {
   let match = useRouteMatch()
@@ -71,7 +72,7 @@ const Transactions = () => {
     <>
       <Switch>
         <Route path={`${match.path}/:id/edit`}>
-          edit
+          <EditTransaction match={match} />
         </Route>
 
         <Route path={`${match.path}/:id/delete`}>
