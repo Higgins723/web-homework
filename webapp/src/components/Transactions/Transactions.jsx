@@ -12,6 +12,7 @@ import CustomSwitch from './CustomSwitch'
 import ApiQuery from './ApiQuery'
 import EditTransaction from './EditTransaction'
 import DeleteTransaction from './DeleteTransaction'
+import CreateTransaction from './CreateTransaction'
 
 const Transactions = () => {
   let match = useRouteMatch()
@@ -81,7 +82,7 @@ const Transactions = () => {
         </Route>
 
         <Route path={`${match.path}/create`}>
-          create
+          <CreateTransaction match={match} />
         </Route>
 
         <Route path={match.path}>
