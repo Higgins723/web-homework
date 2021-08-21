@@ -41,6 +41,7 @@ class TransactionsAPIView(generics.ListAPIView):
         if query is not None:
             for search in query.split():
                 qs = qs.filter(
+                    (Q(user__company__name__icontains=search)) |
                     (Q(user__first_name__icontains=search) | Q(user__last_name__icontains=search)) |
                     (Q(merchant__name__icontains=search) | Q(merchant__category__icontains=search)) |
                     (
