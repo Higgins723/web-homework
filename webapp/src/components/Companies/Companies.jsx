@@ -6,7 +6,7 @@ import {
   Route
 } from 'react-router-dom'
 import axios from 'axios'
-import { Header, Loading, Button, formatCurrency } from '../Common'
+import { Header, Loading, Button, formatCurrency, Table } from '../Common'
 import CreateCompany from './CreateCompany'
 
 const Companies = () => {
@@ -14,10 +14,32 @@ const Companies = () => {
   const [companies, setCompanies] = useState(null)
   const [error, setError] = useState(null)
 
+  const modifyData = (data) => {
+    const temp = data.map((d) => {
+      return {
+        company: d.name,
+        credit_line: formatCurrency(d.credit_line),
+        available_credit: formatCurrency(d.available_credit),
+        employees: (
+          <div className='grid grid-flow-row' key={Math.random()}>
+            {d.employees.map((employee, i) => (
+              <div key={employee.id}>
+                <span>{employee.first_name} {employee.last_name}{i + 1 !== d.employees.length ? ',' : ''}</span>
+              </div>
+            ))}
+          </div>
+        )
+      }
+    })
+
+    return temp
+  }
+
   const fetch = () => {
     axios.get('http://localhost:8000/api/companies/')
       .then(({ data }) => {
-        setCompanies(data)
+        const results = modifyData(data)
+        setCompanies(results)
       })
       .catch(() => {
         setError(true)
@@ -42,34 +64,15 @@ const Companies = () => {
         <Route path={match.path}>
           <Header name='Companies' />
 
-          <table className='table-auto mt-3 mb-10'>
-            <thead>
-              <tr>
-                <th className='px-4 py-2'>Company</th>
-                <th className='px-4 py-2'>Credit Line</th>
-                <th className='px-4 py-2'>Available Credit</th>
-                <th className='px-4 py-2'>Employees</th>
-              </tr>
-            </thead>
-            <tbody>
-              {companies.map((table, i) => (
-                <tr className={i % 2 === 0 ? 'bg-gray-100' : ''} key={table.id}>
-                  <td className='border px-4 py-2'>{table.name}</td>
-                  <td className='border px-4 py-2'>{formatCurrency(table.credit_line)}</td>
-                  <td className='border px-4 py-2'>{formatCurrency(table.available_credit)}</td>
-                  <td className='border px-4 py-2'>
-                    <div className='grid grid-flow-row'>
-                      {table.employees.map((employee, i) => (
-                        <div key={employee.id}>
-                          <span>{employee.first_name} {employee.last_name}{i + 1 !== table.employees.length ? ',' : ''}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <Table
+            data={companies}
+            tableHead={[
+              { key: 'company', name: 'Company' },
+              { key: 'credit_line', name: 'Credit Line' },
+              { key: 'available_credit', name: 'Available Credit' },
+              { key: 'employees', name: 'Employees' }
+            ]}
+          />
 
           <Link to={`${match.url}/create`}>
             <Button color='bg-green-600' name='Create Company' />

@@ -4,6 +4,7 @@ import Button from './Button'
 import FormContent from './FormContent'
 import formatCurrency from './formatCurrency'
 import numToRoman from './numToRoman'
+import Table from './Table'
 
 export {
   Header,
@@ -11,5 +12,6 @@ export {
   Button,
   FormContent,
   formatCurrency,
-  numToRoman
+  numToRoman,
+  Table
 }

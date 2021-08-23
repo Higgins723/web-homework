@@ -6,7 +6,7 @@ import {
   Route
 } from 'react-router-dom'
 import axios from 'axios'
-import { Header, Loading, Button, formatCurrency, numToRoman } from '../Common'
+import { Header, Loading, Button, formatCurrency, numToRoman, Table } from '../Common'
 import Pagination from './Pagination'
 import CustomSwitch from './CustomSwitch'
 import ApiQuery from './ApiQuery'
@@ -31,10 +31,38 @@ const Transactions = () => {
   })
   const [queryLink, setQueryLink] = useState(null)
 
+  const modifyData = (data) => {
+    const temp = data.map((d) => {
+      return {
+        id: showRoman ? numToRoman(d.id) : d.id,
+        user: `${d.user.first_name} ${d.user.last_name}`,
+        company: d.user.company.name,
+        merchant: d.merchant.name,
+        category: d.merchant.category,
+        description: d.description,
+        type: d.debit ? 'Debit' : 'Credit',
+        amount: formatCurrency(d.amount),
+        actions: (
+          <div className='grid grid-flow-row text-center'>
+            <Link className='mb-3' to={`${match.url}/${d.id}/edit`}>
+              <Button color='bg-blue-500' name='Edit' />
+            </Link>
+            <Link to={`${match.url}/${d.id}/delete`}>
+              <Button color='bg-red-500' name='Delete' />
+            </Link>
+          </div>
+        )
+      }
+    })
+
+    return temp
+  }
+
   const fetch = () => {
     axios.get(`http://localhost:8000/api/transactions/?page=${curPage}${queryLink || ''}`)
       .then(({ data }) => {
-        setTransactions(data.results)
+        const results = modifyData(data.results)
+        setTransactions(results)
         setPageCount(Math.ceil(data.count / 5))
       })
       .catch(() => {
@@ -44,7 +72,7 @@ const Transactions = () => {
 
   useEffect(() => {
     fetch()
-  }, [match, curPage, queryLink])
+  }, [match, curPage, queryLink, showRoman])
 
   useEffect(() => {
     const { start, end } = query
@@ -92,45 +120,20 @@ const Transactions = () => {
 
           <ApiQuery query={query} setCurPage={setCurPage} updateQuery={updateQuery} />
 
-          <table className='table-auto mt-3 mb-10'>
-            <thead>
-              <tr>
-                <th className='px-4 py-2'>Id</th>
-                <th className='px-4 py-2'>User</th>
-                <th className='px-4 py-2'>Company</th>
-                <th className='px-4 py-2'>Merchant</th>
-                <th className='px-4 py-2'>Category</th>
-                <th className='px-4 py-2'>Description</th>
-                <th className='px-4 py-2'>Type</th>
-                <th className='px-4 py-2'>Amount</th>
-                <th className='px-4 py-2'>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {transactions.map((table, i) => (
-                <tr className={i % 2 === 0 ? 'bg-gray-100' : ''} key={table.id}>
-                  <td className='border px-4 py-2 w-16'>{showRoman ? numToRoman(table.id) : table.id}</td>
-                  <td className='border px-4 py-2'>{table.user.first_name} {table.user.last_name}</td>
-                  <td className='border px-4 py-2'>{table.user.company.name}</td>
-                  <td className='border px-4 py-2'>{table.merchant.name}</td>
-                  <td className='border px-4 py-2'>{table.merchant.category}</td>
-                  <td className='border px-4 py-2'>{table.description}</td>
-                  <td className='border px-4 py-2'>{table.debit ? 'Debit' : 'Credit'}</td>
-                  <td className='border px-4 py-2'>{formatCurrency(table.amount)}</td>
-                  <td className='border px-4 py-2'>
-                    <div className='grid grid-flow-row text-center'>
-                      <Link className='mb-3' to={`${match.url}/${table.id}/edit`}>
-                        <Button color='bg-blue-500' name='Edit' />
-                      </Link>
-                      <Link to={`${match.url}/${table.id}/delete`}>
-                        <Button color='bg-red-500' name='Delete' />
-                      </Link>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <Table
+            data={transactions}
+            tableHead={[
+              { key: 'id', name: 'Id' },
+              { key: 'user', name: 'User' },
+              { key: 'company', name: 'Company' },
+              { key: 'merchant', name: 'Merchant' },
+              { key: 'category', name: 'Category' },
+              { key: 'description', name: 'Description' },
+              { key: 'type', name: 'Type' },
+              { key: 'amount', name: 'Amount' },
+              { key: 'actions', name: 'Actions' }
+            ]}
+          />
 
           {transactions.length === 0 && (
             <div className='bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded max-w-sm -mt-7 mb-6' role='alert'>
